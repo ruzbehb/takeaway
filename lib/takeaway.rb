@@ -2,7 +2,7 @@ require 'twilio-ruby'
 
 class Takeaway
 
-	attr_reader :menu
+	attr_reader :menu, :customer_mobile_number
 
 	def initialize 
 
@@ -28,15 +28,16 @@ class Takeaway
 	def confirm_order
 		account_sid = "AC1ce11f5c53a289f94beeb1947afa9c78"
 		auth_token = "97728e9210402937f8cc85e9a5b2650f"
+		@customer_mobile_number = "+447827830663"
+		restaurant_number = "+441384901189"
+		
 		message_body = "Thank you! Your order has been placed and will be delivered before #{Time.new.hour + 1}.#{Time.new.min}."
 
 		@client = Twilio::REST::Client.new account_sid, auth_token
 
-		@message = @client.account.messages.create({:to => "+447827830663",
-                                   :from => "+441384901189",
-                                   :body => message_body})
-
-	#confirm that the message has been sent	
+		@message = @client.account.messages.create({:to => @customer_mobile_number,
+                                   :from => restaurant_number,
+                                   :body => message_body})	
 	end
 
 end
